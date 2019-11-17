@@ -7,8 +7,8 @@
 #define Width 30
 
 // 全局变量
-int canvas[High][Width] = { 0 }; 
-
+int canvas[High][Width] = { 0 };   //二维数组存储游戏画布对应元素
+				   //0为空格，-1为边框#，1为蛇头@，>1为蛇身*
 
 void gotoxy(int x, int y) //光标移动到(x,y)位置
 {
@@ -23,13 +23,23 @@ void gotoxy(int x, int y) //光标移动到(x,y)位置
 
 void startup() // 数据初始化
 {
-
+	int i,j;
+	for(i=0;i<High;i++)
+	{
+		canvas[i][0]=-1;
+		canvas[i][Width]=-1;
+	}
+	
+	for(j=0;j<Width;j++)
+	{
+		canvas[0][j]=-1;
+		canvas[High-1][j]=-1;
+	}
 }
 
 void show()  // 显示画面
 {
 	gotoxy(0, 0);  // 光标移动到原点位置，以下重画清屏
-
 	int i, j;
 
 	for (i = 0; i <= High; i++)
@@ -47,6 +57,7 @@ void show()  // 显示画面
 		}
 		printf("\n");
 	}
+	Sleep(20);
 }
 
 void updateWithoutInput()  // 与用户输入无关的更新
