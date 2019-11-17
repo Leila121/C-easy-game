@@ -24,6 +24,7 @@ void gotoxy(int x, int y) //光标移动到(x,y)位置
 void startup() // 数据初始化
 {
 	int i,j;
+	//初始化边框
 	for(i=0;i<High;i++)
 	{
 		canvas[i][0]=-1;
@@ -34,6 +35,13 @@ void startup() // 数据初始化
 	{
 		canvas[0][j]=-1;
 		canvas[High-1][j]=-1;
+	}
+	//初始化蛇头、蛇身
+	canvas[High/2][Width/2]=1;
+	
+	for (i=0;i<=4;i++)
+	{
+		canvas[High/2][Width/2-i]=i+1;
 	}
 }
 
