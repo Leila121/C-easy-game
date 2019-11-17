@@ -7,6 +7,7 @@
 #define Width 30
 
 // 全局变量
+int moveDirection;		   //小蛇移动方向1234分别表示上下左右
 int canvas[High][Width] = { 0 };   //二维数组存储游戏画布对应元素
 				   //0为空格，-1为边框#，1为蛇头@，>1为蛇身*
 
@@ -43,6 +44,46 @@ void startup() // 数据初始化
 	{
 		canvas[High/2][Width/2-i]=i+1;
 	}
+	moveDirection=4;
+}
+
+void moveSnakeByDirection ()
+{
+	int i,j;
+	int old_Tail_i,old_Tail_j;//旧的蛇尾
+	int old_Head_i,old_Head_j;//旧的蛇头
+	int max=0;
+	for (i=1;i<High-1;i++)
+	{
+		for(j=1;j<Width-1;j++)
+		{
+			if(canvas[i][j]>0)
+			{	//所有大于0的元素加1
+				canvas[i][j]++;
+				if (max<canvas[i][j])
+				{	//求出最大值
+					max=canvas[i][j];
+					old_Tail_i=i;
+					old_Tail_j=j;
+				}
+				if (canvas[i][j]==2)
+				{	//记录旧蛇头位置
+					old_Head_i=i;
+					old_Head_j=j;
+				}
+			}
+		}
+		canvas[old_Tail_i][old_Tail_j]=0;//最大元素变为0
+		
+		if(moveDirection==1)  //向上移动
+			canvas[old_Head_i-1][old_Head_j]=1;
+		if(moveDirection==2)  //向下移动
+			canvas[old_Head_i+1][old_Head_j]=1;
+		if(moveDirection==3)  //向左移动
+			canvas[old_Head_i][old_Head_j+1]=1;
+		if(moveDirection==4)  //向右移动
+			canvas[old_Head_i][old_Head_j-1]=1;
+	}
 }
 
 void show()  // 显示画面
@@ -70,7 +111,7 @@ void show()  // 显示画面
 
 void updateWithoutInput()  // 与用户输入无关的更新
 {
-
+	moveSnakeByDirection ();
 }
 
 void updateWithInput()  // 与用户输入有关的更新
